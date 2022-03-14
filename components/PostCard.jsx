@@ -13,12 +13,13 @@ const PostCard = ({ post }) => (
     </div>
 
     <Typography
-            className="transition duration-700 mb-8 font-semibold cursor-pointer hover:text-regal-green"
+            className="transition duration-700 font-semibold cursor-pointer hover:text-regal-green"
             sx={{
               fontFamily: 'Montserrat',
               fontSize: '1.5rem',
               textAlign: "center",
-              px: '0.5rem',
+              paddingX: '0.5rem',
+              marginBottom: '0.8rem',
               color: "white",
               display: "-webkit-box",
               overflow: "hidden",
@@ -32,7 +33,7 @@ const PostCard = ({ post }) => (
       <Link href={`/post/${post.slug}`}>{post.title}</Link>
     </Typography>
 
-    <div className="block lg:flex text-center items-center justify-center mb-8 w-full">
+    <div className="block lg:flex text-center items-center justify-center mb-6 w-full">
       <div className="flex items-center justify-center mb-4 lg:mb-0 w-full lg:w-auto mr-8 items-center">
         <Image
           unoptimized

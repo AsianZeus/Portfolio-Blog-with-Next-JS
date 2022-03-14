@@ -46,7 +46,7 @@ const PostDetail = ({ post }) => {
               h4: ({ children }) => <h4 className="text-xl font-semibold mb-4">{children}</h4>,
               h5: ({ children }) => <h5 className="text-lg font-semibold mb-4">{children}</h5>,
               h6: ({ children }) => <h6 className="text-base font-semibold mb-4">{children}</h6>,
-              p: ({ children }) => <p className="mb-8">{children}</p>,
+              p: ({ children }) => <p className="mb-8 break-words">{children}</p>,
               blockquote: ({ children }) => <blockquote>{children}</blockquote>,
               ul: ({ children }) => <ul className="mb-4 pl-4 list-disc" >{children}</ul>,
               ol: ({ children }) => <ol className="mb-4 pl-4 list-decimal" >{children}</ol>,
