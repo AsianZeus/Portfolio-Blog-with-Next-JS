@@ -1,50 +1,18 @@
 import React from 'react';
-
 import moment from 'moment';
+import { Box } from '@mui/material';
+import { RichText } from '@graphcms/rich-text-react-renderer';
+import Image from 'next/image';
 
 const PostDetail = ({ post }) => {
-  const getContentFragment = (index, text, obj, type) => {
-    let modifiedText = text;
-
-    if (obj) {
-      if (obj.bold) {
-        modifiedText = (<b key={index}>{text}</b>);
-      }
-
-      if (obj.italic) {
-        modifiedText = (<em key={index}>{text}</em>);
-      }
-
-      if (obj.underline) {
-        modifiedText = (<u key={index}>{text}</u>);
-      }
-    }
-
-    switch (type) {
-      case 'heading-three':
-        return <h3 key={index} className="text-xl font-semibold mb-4">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</h3>;
-      case 'paragraph':
-        return <p key={index} className="mb-8">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</p>;
-      case 'heading-four':
-        return <h4 key={index} className="text-md font-semibold mb-4">{modifiedText.map((item, i) => <React.Fragment key={i}>{item}</React.Fragment>)}</h4>;
-      case 'image':
-        return (
-          <img
-            key={index}
-            alt={obj.title}
-            height={obj.height}
-            width={obj.width}
-            src={obj.src}
-          />
-        );
-      default:
-        return modifiedText;
-    }
-  };
 
   return (
-    <>
-      <div className="bg-white shadow-lg rounded-lg lg:p-8 pb-12 mb-8">
+    <Box sx={{
+        backdropFilter: 'blur(10px)',
+        backgroundColor: 'black',
+      }}
+    >
+      <div className="object-top bg-white shadow-lg rounded-lg lg:p-8 pb-12 mb-8">
         <div className="relative overflow-hidden shadow-md mb-6">
           <img src={post.featuredImage.url} alt="" className="object-top h-full w-full object-cover  shadow-lg rounded-t-lg lg:rounded-lg" />
         </div>
@@ -68,15 +36,44 @@ const PostDetail = ({ post }) => {
             </div>
           </div>
           <h1 className="mb-8 text-3xl font-semibold">{post.title}</h1>
-          {post.content.raw.children.map((typeObj, index) => {
-            const children = typeObj.children.map((item, itemindex) => getContentFragment(itemindex, item.text, item));
-
-            return getContentFragment(index, children, typeObj, typeObj.type);
-          })}
+  
+          <RichText
+            content={post.content.raw}
+            renderers={{
+              h1: ({ children }) => <h1 className="text-4xl font-semibold mb-4">{children}</h1>,
+              h2: ({ children }) => <h2 className="text-3xl font-semibold mb-4">{children}</h2>,
+              h3: ({ children }) => <h3 className="text-2xl font-semibold mb-4">{children}</h3>,
+              h4: ({ children }) => <h4 className="text-xl font-semibold mb-4">{children}</h4>,
+              h5: ({ children }) => <h5 className="text-lg font-semibold mb-4">{children}</h5>,
+              h6: ({ children }) => <h6 className="text-base font-semibold mb-4">{children}</h6>,
+              p: ({ children }) => <p className="mb-8">{children}</p>,
+              blockquote: ({ children }) => <blockquote>{children}</blockquote>,
+              ul: ({ children }) => <ul className="mb-4 pl-4 list-disc" >{children}</ul>,
+              ol: ({ children }) => <ol className="mb-4 pl-4 list-decimal" >{children}</ol>,
+              a: ({ href, children }) => <a style={{ fontStyle: 'italic', textDecoration: 'underline' }} href={href} target="_blank" rel="noopener noreferrer">{children}</a>,
+              img: ({  src, altText, height, width }) => 
+              <center>
+                <Image
+                unoptimized
+                  className="object-top mb-4 rounded-t-lg lg:rounded-lg"
+                  alt={altText}
+                  height={height}
+                  width={width}
+                  src={src}
+                /></center>,
+              table: ({ children }) => <table className="table-auto border-2 border-black">{children}</table>,
+              thead: ({ children }) => <thead className="bg-gray-200">{children}</thead>,
+              tbody: ({ children }) => <tbody>{children}</tbody>,
+              tr: ({ children }) => <tr>{children}</tr>,
+              th: ({ children }) => <th className="p-2 bg-gray-200">{children}</th>,
+              td: ({ children }) => <td className="p-2 border-2 border-black">{children}</td>,
+              table_cell: ({ children }) => <td className="p-2 border-2 border-black">{children}</td>,
+              embed: ({ children }) => <div className="mb-4">{children}</div>,
+            }}
+          />
         </div>
       </div>
-
-    </>
+    </Box>
   );
 };
 

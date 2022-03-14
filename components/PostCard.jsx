@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import moment from 'moment';
 import Link from 'next/link';
-
+import Typography from "@mui/material/Typography";
 import { grpahCMSImageLoader } from '../util';
 
 const PostCard = ({ post }) => (
@@ -12,9 +12,26 @@ const PostCard = ({ post }) => (
       <img src={post.featuredImage.url} alt="" className="object-top absolute h-80 w-full object-cover  shadow-lg rounded-t-lg lg:rounded-lg" />
     </div>
 
-    <h1 className="transition duration-700 text-center mb-8 cursor-pointer hover:text-regal-green text-3xl font-semibold text-white">
+    <Typography
+            className="transition duration-700 mb-8 font-semibold cursor-pointer hover:text-regal-green"
+            sx={{
+              fontFamily: 'Montserrat',
+              fontSize: '1.5rem',
+              textAlign: "center",
+              px: '0.5rem',
+              color: "white",
+              display: "-webkit-box",
+              overflow: "hidden",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 3,
+              '@media (min-width:600px)': {
+                fontSize: '1.8rem',
+              },
+            }}
+          >
       <Link href={`/post/${post.slug}`}>{post.title}</Link>
-    </h1>
+    </Typography>
+
     <div className="block lg:flex text-center items-center justify-center mb-8 w-full">
       <div className="flex items-center justify-center mb-4 lg:mb-0 w-full lg:w-auto mr-8 items-center">
         <Image
@@ -35,9 +52,21 @@ const PostCard = ({ post }) => (
         <span className="align-middle">{moment(post.createdAt).format('MMM DD, YYYY')}</span>
       </div>
     </div>
-    <p className="text-center text-lg text-gray-300 font-normal px-4 lg:px-20 mb-8">
+    <Typography
+            paragraph
+            sx={{
+              fontFamily: 'Montserrat',
+              fontSize: '1.1rem',
+              textAlign: "center",
+              color: "white",
+              display: "-webkit-box",
+              overflow: "hidden",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 3,
+            }}
+          >
       {post.excerpt}
-    </p>
+    </Typography>
     <div className="text-center">
       <Link href={`/post/${post.slug}`}>
         <span className="transition duration-500 ease transform hover:-translate-y-1 inline-block bg-regal-green text-lg font-medium rounded-full text-white px-8 py-3 cursor-pointer">Continue Reading</span>

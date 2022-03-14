@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import moment from 'moment';
 import Link from 'next/link';
-
+import Typography from "@mui/material/Typography";
 import { grpahCMSImageLoader } from '../util';
 import { getSimilarPosts, getRecentPosts } from '../services';
 
@@ -39,7 +39,19 @@ const PostWidget = ({ categories, slug }) => {
           </div>
           <div className="flex-grow ml-4 text-white">
             <p className="text-gray-400 font-xs">{moment(post.createdAt).format('MMM DD, YYYY')}</p>
-            <Link href={`/post/${post.slug}`} className="text-md" key={index}>{post.title}</Link>
+            <Typography
+            paragraph
+            sx={{
+              display: "-webkit-box",
+              overflow: "hidden",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 2,
+            }}
+          >
+            <Link href={`/post/${post.slug}`} key={index}>
+            {post.title}
+            </Link>
+          </Typography>
           </div>
         </div>
       ))}

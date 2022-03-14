@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import Typography from "@mui/material/Typography";
 import Link from 'next/link';
 import { getCategories } from '../services';
 
@@ -16,9 +16,18 @@ const Header = () => {
     <div className="container mx-auto px-10 mb-8">
       <div className="border-b w-full inline-block border-blue-400 py-8">
         <div className="md:float-left block">
-          <Link href="/">
-            <span className="cursor-pointer font-bold text-4xl text-white">Blogs</span>
-          </Link>
+          
+          <Typography
+              sx={{
+                fontSize: "1.5rem",
+                color: "white",
+                fontFamily: "Signature",
+                cursor: "default",
+              }}
+            >
+              <Link href="/">Blogs</Link>
+            </Typography>
+            {/* <span className="cursor-pointer font-bold text-4xl text-white">Blogs</span> */}
         </div>
         <div className="hidden md:float-left md:contents">
           {categories.map((category, index) => (

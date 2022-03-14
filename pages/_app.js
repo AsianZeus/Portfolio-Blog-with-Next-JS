@@ -6,12 +6,12 @@ import ParticleBackground from '../particles/ParticleBackground';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div>
-      <ParticleBackground />
+    <>
+    <ParticleBackground />
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </div>
+    </>
   );
 }
 
