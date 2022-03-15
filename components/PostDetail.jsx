@@ -3,7 +3,6 @@ import moment from 'moment';
 import { Box } from '@mui/material';
 import { RichText } from '@graphcms/rich-text-react-renderer';
 import Image from 'next/image';
-import { CopyBlock, dracula } from "react-code-blocks";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -12,9 +11,17 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import 'highlight.js/styles/night-owl.css';
+import hljs from 'highlight.js/lib/common';
+import { useEffect } from 'react';
+
 
 const PostDetail = ({ post }) => {
-
+  useEffect(() => {
+    hljs.configure({ ignoreUnescapedHTML: true });
+    hljs.highlightAll();
+  }, []);
+  
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: 'rgb(200,200,255)',
@@ -80,11 +87,11 @@ const PostDetail = ({ post }) => {
               blockquote: ({ children }) => <blockquote>{children}</blockquote>,
               code_block: ({ children }) => {
                 return (
-                  <pre className="line-numbers language-none">
-                      <CopyBlock text={children.props.content[0].text} language={'python'} showLineNumbers={false} theme={dracula} codeBlock/>
-                  </pre>
+                <pre className='rounded-t-lg lg:rounded-lg'>
+                    <code className='rounded-t-lg lg:rounded-lg'>{children}</code>
+                </pre>
                 );
-              },
+              },            
               ul: ({ children }) => <ul className="mb-4 pl-4 list-disc" >{children}</ul>,
               ol: ({ children }) => <ol className="mb-4 pl-4 list-decimal" >{children}</ol>,
               a: ({ href, children }) => <a style={{ color:'rgba(102,98,253,255)', textDecoration: 'underline' }} href={href} target="_blank" rel="noopener noreferrer">{children}</a>,
