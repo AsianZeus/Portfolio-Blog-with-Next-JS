@@ -3,8 +3,38 @@ import moment from 'moment';
 import { Box } from '@mui/material';
 import { RichText } from '@graphcms/rich-text-react-renderer';
 import Image from 'next/image';
+import { CopyBlock, dracula } from "react-code-blocks";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
 
 const PostDetail = ({ post }) => {
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: 'rgb(200,200,255)',
+      color: theme.palette.common.black,
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+  
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  }));
 
   return (
     <Box sx={{
@@ -36,7 +66,7 @@ const PostDetail = ({ post }) => {
             </div>
           </div>
           <h1 className="mb-8 text-3xl font-semibold">{post.title}</h1>
-  
+
           <RichText
             content={post.content.raw}
             renderers={{
@@ -48,9 +78,16 @@ const PostDetail = ({ post }) => {
               h6: ({ children }) => <h6 className="text-base font-semibold mb-4">{children}</h6>,
               p: ({ children }) => <p className="mb-8 break-words">{children}</p>,
               blockquote: ({ children }) => <blockquote>{children}</blockquote>,
+              code_block: ({ children }) => {
+                return (
+                  <pre className="line-numbers language-none">
+                      <CopyBlock text={children.props.content[0].text} language={'python'} showLineNumbers={false} theme={dracula} codeBlock/>
+                  </pre>
+                );
+              },
               ul: ({ children }) => <ul className="mb-4 pl-4 list-disc" >{children}</ul>,
               ol: ({ children }) => <ol className="mb-4 pl-4 list-decimal" >{children}</ol>,
-              a: ({ href, children }) => <a style={{ fontStyle: 'italic', textDecoration: 'underline' }} href={href} target="_blank" rel="noopener noreferrer">{children}</a>,
+              a: ({ href, children }) => <a style={{ color:'rgba(102,98,253,255)', textDecoration: 'underline' }} href={href} target="_blank" rel="noopener noreferrer">{children}</a>,
               img: ({  src, altText, height, width }) => 
               <center>
                 <Image
@@ -61,14 +98,12 @@ const PostDetail = ({ post }) => {
                   width={width}
                   src={src}
                 /></center>,
-              table: ({ children }) => <table className="table-auto border-2 border-black">{children}</table>,
-              thead: ({ children }) => <thead className="bg-gray-200">{children}</thead>,
-              tbody: ({ children }) => <tbody>{children}</tbody>,
-              tr: ({ children }) => <tr>{children}</tr>,
-              th: ({ children }) => <th className="p-2 bg-gray-200">{children}</th>,
-              td: ({ children }) => <td className="p-2 border-2 border-black">{children}</td>,
-              table_cell: ({ children }) => <td className="p-2 border-2 border-black">{children}</td>,
-              embed: ({ children }) => <div className="mb-4">{children}</div>,
+                table: ({ children }) => <TableContainer className='mt-6' component={Paper}><Table sx={{ minWidth: 350 }} aria-label="customized table">{children}</Table></TableContainer>,
+                table_head: ({ children }) => <TableHead sx={{paddingY:'0px'}}>{children}</TableHead>,
+                table_body: ({ children }) => <TableBody sx={{paddingY:'0px'}}>{children}</TableBody>,
+                table_row: ({ children }) => <StyledTableRow sx={{paddingY:'0px'}}>{children}</StyledTableRow>,
+                table_header_cell: ({ children }) => <StyledTableCell  align='center' sx={{paddingY:'0px', size:'small'}}>{children}</StyledTableCell>, 
+                table_cell: ({ children }) => <StyledTableCell sx={{paddingY:'0px', size:'small'}}>{children}</StyledTableCell>,
             }}
           />
         </div>
